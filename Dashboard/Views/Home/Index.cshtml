@@ -1,0 +1,78 @@
+@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="dashboard-header">
+    <div>
+        <p class="eyebrow">Mock sentiment intelligence</p>
+        <h1>Crypto Signal AI Dashboard</h1>
+        <p class="lead">Track crypto narratives, sentiment, and momentum using local sample data.</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="DailyBrief">View Daily Brief</a>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="summary-card">
+            <span>Total posts analyzed</span>
+            <strong>@Model.TotalPostsAnalyzed</strong>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="summary-card">
+            <span>Overall sentiment</span>
+            <strong>@Model.OverallSentiment</strong>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="summary-card">
+            <span>Top trending topic</span>
+            <strong>@Model.TopTrendingTopic?.Name</strong>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="summary-card">
+            <span>Highest momentum topic</span>
+            <strong>@Model.HighestMomentumTopic?.Name</strong>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Tracked Topics</h2>
+            <p>Click a topic to inspect its source posts and AI-style summary.</p>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle dashboard-table">
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Mentions</th>
+                    <th>Sentiment</th>
+                    <th>Momentum</th>
+                    <th>AI-style summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var topic in Model.Topics)
+                {
+                    <tr>
+                        <td>
+                            <a class="topic-link" asp-controller="Home" asp-action="Details" asp-route-id="@topic.Id">@topic.Name</a>
+                        </td>
+                        <td>@topic.Mentions.ToString("N0")</td>
+                        <td><span class="badge sentiment-@topic.Sentiment.ToLower()">@topic.Sentiment</span></td>
+                        <td><span class="badge momentum-@topic.Momentum.ToLower()">@topic.Momentum</span></td>
+                        <td>@topic.Summary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

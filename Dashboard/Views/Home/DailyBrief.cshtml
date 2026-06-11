@@ -1,0 +1,67 @@
+@model DailyBrief
+
+@{
+    ViewData["Title"] = "Daily Intelligence Brief";
+}
+
+<section class="dashboard-header compact">
+    <div>
+        <p class="eyebrow">Daily intelligence brief</p>
+        <h1>Market Narrative</h1>
+        <p class="lead">@Model.OverallMarketNarrative</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="ContentGenerator">Generate Content</a>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-lg-4">
+        <div class="panel h-100">
+            <h2>Top Positive Topics</h2>
+            @foreach (var topic in Model.TopPositiveTopics)
+            {
+                <div class="brief-topic">
+                    <strong>@topic.Name</strong>
+                    <span>@topic.Mentions.ToString("N0") mentions</span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel h-100">
+            <h2>Top Negative Topics</h2>
+            @foreach (var topic in Model.TopNegativeTopics)
+            {
+                <div class="brief-topic">
+                    <strong>@topic.Name</strong>
+                    <span>@topic.Mentions.ToString("N0") mentions</span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel h-100">
+            <h2>Biggest Momentum</h2>
+            <div class="brief-feature">
+                <strong>@Model.BiggestMomentumTopic?.Name</strong>
+                <span>@Model.BiggestMomentumTopic?.Momentum momentum</span>
+                <p>@Model.BiggestMomentumTopic?.Summary</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Suggested Social Media Post Ideas</h2>
+            <p>Use these as starting points for your content generator.</p>
+        </div>
+    </div>
+
+    <ol class="idea-list">
+        @foreach (var idea in Model.SocialPostIdeas)
+        {
+            <li>@idea</li>
+        }
+    </ol>
+</section>

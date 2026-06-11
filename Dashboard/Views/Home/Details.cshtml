@@ -1,0 +1,59 @@
+@model CryptoTopic
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<section class="dashboard-header compact">
+    <div>
+        <p class="eyebrow">Trend details</p>
+        <h1>@Model.Name</h1>
+        <p class="lead">@Model.Summary</p>
+    </div>
+    <a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index">Back to Dashboard</a>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="summary-card">
+            <span>Sentiment</span>
+            <strong>@Model.Sentiment</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="summary-card">
+            <span>Mention count</span>
+            <strong>@Model.Mentions.ToString("N0")</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="summary-card">
+            <span>Momentum</span>
+            <strong>@Model.Momentum</strong>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Example Posts And Articles</h2>
+            <p>These are mock examples that simulate social and news sources.</p>
+        </div>
+    </div>
+
+    <div class="source-list">
+        @foreach (var post in Model.SourcePosts)
+        {
+            <article class="source-item">
+                <div class="source-meta">
+                    <strong>@post.SourceName</strong>
+                    <span>@post.Author</span>
+                    <span>@post.PublishedAt.ToString("MMM d, h:mm tt")</span>
+                    <span class="badge sentiment-@post.Sentiment.ToLower()">@post.Sentiment</span>
+                </div>
+                <p>@post.Text</p>
+            </article>
+        }
+    </div>
+</section>

@@ -1,0 +1,52 @@
+@model ContentGeneratorViewModel
+
+@{
+    ViewData["Title"] = "Content Generator";
+}
+
+<section class="dashboard-header compact">
+    <div>
+        <p class="eyebrow">Template-based AI content</p>
+        <h1>Content Generator</h1>
+        <p class="lead">Select a mock crypto topic to create draft posts for different social channels.</p>
+    </div>
+</section>
+
+<section class="panel mb-4">
+    <form asp-controller="Home" asp-action="ContentGenerator" method="post" class="generator-form">
+        <div>
+            <label class="form-label" for="topicId">Choose a topic</label>
+            <select class="form-select" id="topicId" name="topicId">
+                @foreach (var topic in Model.Topics)
+                {
+                    <option value="@topic.Id" selected="@(Model.SelectedTopicId == topic.Id)">@topic.Name</option>
+                }
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Generate Drafts</button>
+    </form>
+</section>
+
+@if (Model.GeneratedContent?.Topic != null)
+{
+    <section class="row g-3">
+        <div class="col-lg-4">
+            <div class="content-card">
+                <span>X/Twitter</span>
+                <p>@Model.GeneratedContent.TwitterPost</p>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="content-card">
+                <span>Instagram</span>
+                <p>@Model.GeneratedContent.InstagramCaption</p>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="content-card">
+                <span>LinkedIn</span>
+                <p>@Model.GeneratedContent.LinkedInPost</p>
+            </div>
+        </div>
+    </section>
+}
